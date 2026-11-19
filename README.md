@@ -23,7 +23,7 @@ An India-focused job discovery platform for freshers and internship seekers. Pub
 
 ![FresherJobs AI architecture: scheduled AWS ingestion, MongoDB Atlas, Render API and Vercel frontend](docs/architecture.png)
 
-The diagram reflects the implemented application and the AWS configuration supplied by the project author. An editable vector version is available in [docs/architecture.svg](docs/architecture.svg).
+The image above is the project author's architecture diagram, exported from draw.io. It shows scheduled ATS ingestion and the frontend/API read path. The implementation details below describe the fields actually stored, encryption, and verification status; the diagram is a high-level overview.
 
 Two paths share MongoDB without coupling frontend traffic to job collection:
 
