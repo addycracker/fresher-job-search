@@ -16,6 +16,11 @@ export interface SecurityConfig {
   windowMs: number;
   trustProxy: string[];
 }
+export class InvalidEncryptionKeyError extends Error {
+  constructor() {
+    super("Invalid encryption key");
+  }
+}
 export function securityFromKey(
   apiKey: string,
   pem: string,
@@ -23,12 +28,17 @@ export function securityFromKey(
   windowMs = 60000,
   trustProxy: string[] = [],
 ): SecurityConfig {
-  const privateKey = createPrivateKey(pem);
+  let privateKey: KeyObject;
+  try {
+    privateKey = createPrivateKey(pem);
+  } catch {
+    throw new InvalidEncryptionKeyError();
+  }
   if (
     privateKey.asymmetricKeyType !== "rsa" ||
     (privateKey.asymmetricKeyDetails?.modulusLength ?? 0) < TRANSPORT.RSA_BITS
   )
-    throw new Error("Invalid encryption key");
+    throw new InvalidEncryptionKeyError();
   const der = createPublicKey(privateKey).export({
     type: "spki",
     format: "der",
