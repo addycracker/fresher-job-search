@@ -1,0 +1,34 @@
+{
+  "family": "fresherjobs-ingestion",
+  "requiresCompatibilities": ["FARGATE"],
+  "networkMode": "awsvpc",
+  "cpu": "256",
+  "memory": "512",
+  "runtimePlatform": { "cpuArchitecture": "X86_64", "operatingSystemFamily": "LINUX" },
+  "executionRoleArn": "${ECS_EXECUTION_ROLE_ARN}",
+  "containerDefinitions": [
+    {
+      "name": "job-ingestion",
+      "image": "${ECR_IMAGE_URI}",
+      "essential": true,
+      "command": ["node", "dist/apps/job-ingestion/src/index.js", "--write"],
+      "readonlyRootFilesystem": true,
+      "stopTimeout": 120,
+      "environment": [
+        { "name": "NODE_ENV", "value": "production" },
+        { "name": "INGESTION_ALLOW_WRITES", "value": "true" },
+        { "name": "INGESTION_TIMEOUT_MS", "value": "840000" },
+        { "name": "INGESTION_MAX_SOURCES", "value": "1000" }
+      ],
+      "secrets": [{ "name": "MONGODB_URI", "valueFrom": "${MONGODB_SECRET_ARN}" }],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "${CLOUDWATCH_LOG_GROUP}",
+          "awslogs-region": "${AWS_REGION}",
+          "awslogs-stream-prefix": "ingestion"
+        }
+      }
+    }
+  ]
+}

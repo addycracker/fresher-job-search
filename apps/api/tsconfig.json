@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "../..",
+    "outDir": "../../dist-api",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true
+  },
+  "include": ["src/**/*.ts", "../../packages/contracts/src/**/*.ts"],
+  "exclude": ["../../node_modules", "../../apps/web", "../../tests"]
+}

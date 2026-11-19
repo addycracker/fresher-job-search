@@ -1,4 +1,25 @@
-# FresherJobs AI — Milestone 1
+# FresherJobs AI
+
+The read-only NestJS API and Next.js website are documented in
+[docs/API-WEB.md](docs/API-WEB.md), including setup, environment variables,
+endpoints, data limitations, tests and production commands.
+
+Job API calls require hybrid RSA/AES encryption and `X-API-Key`.
+See [docs/API-SECURITY.md](docs/API-SECURITY.md) for first-time key setup,
+rate limits, protocol details and production requirements.
+
+```powershell
+npm ci
+# Add API settings to .env.development and copy apps/web/.env.example to .env.local.
+npm run api:dev
+# In a second terminal:
+npm run web:dev
+```
+
+The website reads the existing jobs through the API. It does not connect to
+MongoDB from the browser or write job records.
+
+## Manual company seeding — Milestone 1
 
 The ECS Fargate ingestion worker is documented in
 [apps/job-ingestion/README.md](apps/job-ingestion/README.md).
@@ -37,13 +58,13 @@ npm run seed:companies
 
 Edit `scripts/data/companies.json` as a JSON array. Each record has exactly these fields:
 
-| Field | Meaning |
-| --- | --- |
-| `name` | Verified company display name, nonempty |
-| `website` | Verified HTTPS company homepage, with no path other than `/`, credentials, port, query or fragment |
-| `sources` | Array of recruitment boards; may be empty |
-| `sources[].provider` | A provider key from `config/providers.json` |
-| `sources[].boardToken` | Verified board identifier, using letters, digits, underscores or hyphens |
+| Field                  | Meaning                                                                                            |
+| ---------------------- | -------------------------------------------------------------------------------------------------- |
+| `name`                 | Verified company display name, nonempty                                                            |
+| `website`              | Verified HTTPS company homepage, with no path other than `/`, credentials, port, query or fragment |
+| `sources`              | Array of recruitment boards; may be empty                                                          |
+| `sources[].provider`   | A provider key from `config/providers.json`                                                        |
+| `sources[].boardToken` | Verified board identifier, using letters, digits, underscores or hyphens                           |
 
 Manually verify the official website and each board's association with the company before adding records. Validation checks structure and consistency; provider checks confirm the configured board responds as expected. They do not prove company authenticity or company ownership of that board. Synthetic `.test` fixtures live only in tests.
 
@@ -108,5 +129,6 @@ Edit application wording in `config/messages.json`. Named placeholders such as
 `{companies}` are filled at runtime. Built-in dependency errors (such as Zod's
 standard type errors) still come from those dependencies. Field names, index
 definitions and validation rules remain code rather than configurable prose.
-#   f r e s h e r - j o b - s e a r c h  
+#   f r e s h e r - j o b - s e a r c h 
+ 
  

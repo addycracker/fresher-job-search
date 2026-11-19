@@ -1,0 +1,24 @@
+{
+  "timeoutMs": 20000,
+  "maxAttempts": 3,
+  "retryDelayMs": 500,
+  "retryHttpStatuses": [429, 500, 502, 503, 504],
+  "maxResponseBytes": 5000000,
+  "providers": {
+    "greenhouse": {
+      "url": "https://boards-api.greenhouse.io/v1/boards/{boardToken}",
+      "field": "name",
+      "type": "string"
+    },
+    "lever": {
+      "url": "https://api.lever.co/v0/postings/{boardToken}?mode=json&limit=1",
+      "field": null,
+      "type": "array"
+    },
+    "ashby": {
+      "url": "https://api.ashbyhq.com/posting-api/job-board/{boardToken}",
+      "field": "jobs",
+      "type": "array"
+    }
+  }
+}

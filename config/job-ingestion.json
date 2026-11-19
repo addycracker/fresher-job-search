@@ -1,0 +1,19 @@
+{
+  "maxSources": 1000,
+  "pageSize": 100,
+  "maxPages": 100,
+  "maxJobsPerSource": 20000,
+  "requestTimeoutMs": 15000,
+  "databaseTimeoutMs": 10000,
+  "maxAttempts": 3,
+  "retryDelayMs": 500,
+  "retryHttpStatuses": [408, 429, 500, 502, 503, 504],
+  "maxResponseBytes": 10000000,
+  "leaseMs": 120000,
+  "runTimeoutMs": 840000,
+  "providers": {
+    "greenhouse": { "url": "https://boards-api.greenhouse.io/v1/boards/{boardToken}/jobs?content=true" },
+    "lever": { "url": "https://api.lever.co/v0/postings/{boardToken}?mode=json" },
+    "ashby": { "url": "https://api.ashbyhq.com/posting-api/job-board/{boardToken}" }
+  }
+}
