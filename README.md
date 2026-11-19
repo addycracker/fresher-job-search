@@ -167,6 +167,10 @@ Pages default to 12 records, with a maximum of 48. Sorting uses first-indexed ti
 
 Job API calls require `X-API-Key`, `X-Encrypted-Key` and `X-Encrypted-Payload`:
 
+![Encryption flow: fresh client AES key, RSA public-key wrapping, backend private-key unwrapping, encrypted response and client decryption](docs/encryption-flow.png)
+
+The diagram follows the implemented GET job API flow. The raw AES key is never transmitted; `X-Encrypted-Key` contains its RSA-wrapped form. `X-Encrypted-Payload` contains the encrypted query packet, and the backend returns an AES-GCM cipher envelope rather than plaintext job data.
+
 1. The client generates a fresh AES-256-GCM key for each call.
 2. RSA-OAEP/SHA-256 wraps that key with the server's public key.
 3. The query payload is encrypted in headers. The backend unwraps and verifies it with its private key before normal request validation.
